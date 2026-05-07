@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+
+<h1>Dashboard 🎯</h1>
+
+<p id="welcome"></p>
+
+<button onclick="goToGame()">Play Game 🧠</button><br><br>
+<button onclick="logout()">Logout</button>
+
+<h3>Your Scores 📊</h3>
+<ul id="scoreList"></ul>
+<h3>AI Suggestion 🤖</h3>
+<p id="suggestion"></p>
+
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("welcome").innerText =
+      "Welcome " + user.name;
+  }
+
+  function goToGame() {
+    window.location.href = "game.html";
+  }
+  function analyzePerformance(scores) {
+  if (scores.length === 0) return;
+
+  let avgMoves =
+    scores.reduce((sum, s) => sum + s.moves, 0) / scores.length;
+
+  let suggestion = "";
+
+  if (avgMoves > 12) {
+    suggestion = "⚠️ Try easier level (improve memory)";
+  } else if (avgMoves > 8) {
+    suggestion = "👍 Medium level is suitable";
+  } else {
+    suggestion = "🔥 Great! Try harder level";
+  }
+
+  document.getElementById("suggestion").innerText = suggestion;
+
+  // Save level
+  localStorage.setItem("level", suggestion);
+}
+
+
+  // FETCH SCORES
+  async function loadScores() {
+  const res = await fetch(
+    `http://localhost:5000/api/game/scores/${user.name}`
+  );
+  const data = await res.json();
+
+  const list = document.getElementById("scoreList");
+  list.innerHTML = "";
+
+  data.forEach(score => {
+    const li = document.createElement("li");
+    li.innerText = `Moves: ${score.moves} | Date: ${new Date(score.date).toLocaleString()}`;
+    list.appendChild(li);
+  });
+
+  // ✅ ADD THIS LINE HERE
+  analyzePerformance(data);
+}
+  loadScores();
+  
+  
+</script>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>

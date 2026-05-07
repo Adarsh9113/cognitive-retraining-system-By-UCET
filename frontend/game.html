@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Memory Game</title>
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      gap: 10px;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      background: #333;
+      color: white;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Memory Game 🧠</h2>
+
+<div class="grid" id="gameBoard"></div>
+<h2 style="text-align:center;">Memory Game 🧠</h2>
+
+<p style="text-align:center;">Moves: <span id="moves">0</span></p>
+
+<div class="grid" id="gameBoard"></div>
+
+<button onclick="saveScore()">Save Score</button>
+
+<script src="js/game.js"></script>
+
+<script src="js/game.js"></script>
+
+</body>
+</html>
